@@ -19,7 +19,7 @@ $(document).ready(function (event) {
         var tdHour = $("<td>");
         var inputMaker = $("<input>");
         var saveBtn = $("<button>");
-
+    
         // Row
         trMaker.addClass("row");
 
@@ -54,7 +54,28 @@ $(document).ready(function (event) {
         saveBtn.appendTo(trMaker);
         trMaker.appendTo($(".container"));
     }
+        // User Input Saving
+    $(".saveBtn").click(function(event){
+        event.preventDefault();
+        var btnNum = $(this).val();
 
+        var noteNum = "#"+btnNum;
+        var userInput = $(noteNum).val();
+        
+        console.log(btnNum);
+        console.log(userInput);
+
+        localStorage.setItem(btnNum,userInput);
+
+        console.log(localStorage);
+        $(noteNum).text(userInput);
+
+
+        
+        
+
+
+    });
 
     
 
