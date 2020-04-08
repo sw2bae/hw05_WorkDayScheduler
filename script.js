@@ -1,7 +1,7 @@
 $(document).ready(function (event) {
 
     var currentTime = moment().format('dddd MMMM Do YYYY, h:mm a');
-    var timeIndex = moment().format('HH');
+    
 
     function timeWriting() {
         $("#currentDay").text(currentTime);
@@ -12,33 +12,51 @@ $(document).ready(function (event) {
 
 
 
-
+    // Making Table
     for (var i = 9; i < 18; i++) {
-
+        var timeIndex = moment().format('HH');
         var trMaker = $("<tr>");
-
         var tdHour = $("<td>");
         var inputMaker = $("<input>");
         var saveBtn = $("<button>");
 
+        // Row
         trMaker.addClass("row");
 
+        // Hour Col
         tdHour.addClass("hour col-2");
-        tdHour.text(i);
+        if (i<12){
+            tdHour.text(i + "AM");
+        }else if (i ==12){
+            tdHour.text(i +"PM");
+        }else{
+            tdHour.text((i-12) + "PM");
+        }
         tdHour.appendTo(trMaker);
 
+        // Note Col
         inputMaker.addClass("description col-9");
-        inputMaker.attr("placeholder",i);
+        inputMaker.attr("placeholder","Note :");
+        inputMaker.attr("id",i);
+        if (i<timeIndex){
+            inputMaker.addClass("past");
+        } else if (i == timeIndex){
+            inputMaker.addClass("present");
+        } else {
+            inputMaker.addClass("future");
+        }
         inputMaker.appendTo(trMaker);
 
+        // Btn Col
         saveBtn.addClass("saveBtn col-1");
-        saveBtn.text(i);
+        saveBtn.attr("value",i);
+        saveBtn.text("");
         saveBtn.appendTo(trMaker);
-
         trMaker.appendTo($(".container"));
-
-
     }
+
+
+    
 
 
 });
