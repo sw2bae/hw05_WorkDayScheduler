@@ -1,16 +1,26 @@
 $(document).ready(function (event) {
 
     var currentTime = moment().format('dddd MMMM Do YYYY, h:mm a');
-    
 
+
+    // Clearing History for tomorrow 
+    function clearHistory() {
+        var today = moment().format('DD');
+        var yesterday = localStorage.getItem("today");
+
+        if (yesterday !== today) {
+            localStorage.clear();
+        }
+        localStorage.setItem("today", today);
+    }
+
+    // Writing Current Time 
     function timeWriting() {
         $("#currentDay").text(currentTime);
     }
 
-
+    clearHistory();
     timeWriting();
-
-
 
     // Making Table
     for (var i = 9; i < 18; i++) {
@@ -19,28 +29,35 @@ $(document).ready(function (event) {
         var tdHour = $("<td>");
         var inputMaker = $("<input>");
         var saveBtn = $("<button>");
-    
+        // Returning SavedItem from localStorage
+        var savedItem = localStorage.getItem("'" + i + "'");
+
+
+
         // Row
-        trMaker.addClass("row");
+        trMaker.addClass("time-block hour row");
 
         // Hour Col
-        tdHour.addClass("hour col-2");
-        if (i<12){
+        tdHour.addClass("col-2");
+        if (i < 12) {
             tdHour.text(i + "AM");
-        }else if (i ==12){
-            tdHour.text(i +"PM");
-        }else{
-            tdHour.text((i-12) + "PM");
+        } else if (i == 12) {
+            tdHour.text(i + "PM");
+        } else {
+            tdHour.text((i - 12) + "PM");
         }
         tdHour.appendTo(trMaker);
 
         // Note Col
         inputMaker.addClass("description col-9");
-        inputMaker.attr("placeholder","Note :");
-        inputMaker.attr("id",i);
-        if (i<timeIndex){
+        inputMaker.attr("id", i);
+        // Writing SavedItem from localStorage
+        inputMaker.attr("placeholder", savedItem);
+
+
+        if (i < timeIndex) {
             inputMaker.addClass("past");
-        } else if (i == timeIndex){
+        } else if (i == timeIndex) {
             inputMaker.addClass("present");
         } else {
             inputMaker.addClass("future");
@@ -49,35 +66,21 @@ $(document).ready(function (event) {
 
         // Btn Col
         saveBtn.addClass("saveBtn col-1");
-        saveBtn.attr("value",i);
+        saveBtn.attr("value", i);
         saveBtn.text("");
         saveBtn.appendTo(trMaker);
         trMaker.appendTo($(".container"));
+
     }
-        // User Input Saving
-    $(".saveBtn").click(function(event){
+
+    // User Input Saving
+    $(".saveBtn").click(function (event) {
         event.preventDefault();
         var btnNum = $(this).val();
 
-        var noteNum = "#"+btnNum;
-        var userInput = $(noteNum).val();
-        
-        console.log(btnNum);
-        console.log(userInput);
+        var noteId = $("#" + btnNum);
+        var userInput = noteId.val();
 
-        localStorage.setItem(btnNum,userInput);
-
-        console.log(localStorage);
-        $(noteNum).text(userInput);
-
-
-        
-        
-
-
+        localStorage.setItem("'" + btnNum + "'", userInput);
     });
-
-    
-
-
 });
