@@ -35,10 +35,10 @@ $(document).ready(function (event) {
 
 
         // Row
-        trMaker.addClass("time-block hour row");
+        trMaker.addClass("row");
 
         // Hour Col
-        tdHour.addClass("col-2");
+        tdHour.addClass("col-2 hour");
         if (i < 12) {
             tdHour.text(i + "AM");
         } else if (i == 12) {
@@ -81,6 +81,6 @@ $(document).ready(function (event) {
         var noteId = $("#" + btnNum);
         var userInput = noteId.val();
 
-        localStorage.setItem("'" + btnNum + "'", userInput);
+        localStorage.setItem("'" + btnNum + "'", userInput);        
     });
 });
